@@ -54,6 +54,11 @@ public class Pixel {
     public void setB(int b) {
         this.b = b;
     }
+    public int getRGB() {
+        // 将RGB值转换为int类型
+        int rgb = (r << 16) | (g << 8) | b;
+        return rgb;
+    }
 
 
 
