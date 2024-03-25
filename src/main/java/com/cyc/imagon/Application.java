@@ -1,7 +1,5 @@
 package com.cyc.imagon;
 
-import com.cyc.imagon.entity.MainModule;
-
 /**
  * ClassName: Application
  * Package: com.cyc.imagon
@@ -12,6 +10,6 @@ import com.cyc.imagon.entity.MainModule;
  * @Version 1.0
  */
 public class Application {
-    MainModule mainModule = new MainModule();
+    //MainModule mainModule = new MainModule();
 
 }

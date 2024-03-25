@@ -15,18 +15,20 @@ import java.util.List;
  * @Create 2024/3/22 17:03
  * @Version 1.0
  */
-public class ImageWithCount {
-    static int count=0;
+public class Image {
+    //static int count=0;
+    static int width;
+    static int height;
     public List<Pixel> pixels;
 
-
-    public int getCount() {
-        return count;
+    public static int getWidth() {
+        return width;
     }
 
-    public void setCount(int count) {
-        this.count = count;
+    public static int getHeight() {
+        return height;
     }
+
 
     public List<Pixel> getPixels() {
         return pixels;
@@ -35,11 +37,9 @@ public class ImageWithCount {
     public void setPixels(Pixel pixels) {
         this.pixels.add(pixels);
     }
-    public ImageWithCount loadImage(File imageFile){
+    public Image loadImage(File imageFile){
         //创建对象
-        ImageWithCount imageWithCount = new ImageWithCount();
-        //count赋值,count传给对象ImageWithCount
-        imageWithCount.setCount(++count);
+        Image imageWithCount = new Image();
         //从文件中读入图片
         BufferedImage image = null;
         try {
@@ -50,6 +50,8 @@ public class ImageWithCount {
         // 获取图像的宽度和高度
         int width = image.getWidth();
         int height = image.getHeight();
+        this.width = width;
+        this.height = height;
         // 遍历图像中的每个像素
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
