@@ -2,12 +2,14 @@ package com.cyc.imagon;
 
 import com.cyc.imagon.entity.Image;
 import com.cyc.imagon.main.MainModule;
-import com.cyc.imagon.service.CountTxt;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
 
 /**
  * ClassName: GUI
@@ -19,36 +21,26 @@ import java.io.*;
  * @Version 1.0
  */
 public class GUI {
-    private int totalCount=0;
-    private int curCount=0;
     private JButton 上一张图Button;
     private JButton 下一张图Button;
     private JButton 添加图片Button;
     public JPanel root;
-    private JButton 持久化JButton;
 
     static File imageFile;
-    static CountTxt countTxt=new CountTxt();
+
     public GUI(MainModule mainModule) {
         上一张图Button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                totalCount = countTxt.readTxt();
-                if (curCount > 0) curCount--;
-                if (curCount == 0) curCount=9;
-                mainModule.getImageByCount(curCount);
+
             }
         });
         下一张图Button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                totalCount = countTxt.readTxt();
-                if (curCount < totalCount) curCount++;
-                //BufferedImage imageByCount = mainModule.getImageByCount(curCount);
-                mainModule.getImageByCount(curCount);
-                if (curCount == totalCount) curCount=0;
+
             }
         });
         添加图片Button.addMouseListener(new MouseAdapter() {
@@ -64,12 +56,6 @@ public class GUI {
                 mainModule.storeImageWithCount(new Image().loadImage(imageFile));
             }
         });
-        持久化JButton.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                super.mouseClicked(e);
-                mainModule.storeToHardDrive();
-            }
-        });
     }
+
 }
