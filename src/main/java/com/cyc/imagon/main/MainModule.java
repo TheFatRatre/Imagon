@@ -3,8 +3,12 @@ package com.cyc.imagon.main;
 import com.cyc.imagon.entity.Image;
 import com.cyc.imagon.entity.Pixel;
 import com.cyc.imagon.entity.PixelWithCount;
+import com.cyc.imagon.service.CountTxt;
 
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
@@ -83,7 +87,7 @@ public class MainModule {
         System.out.println(count);
         return true;
     }
-    public BufferedImage getImageWithCount(int count){
+    public BufferedImage getImageByCount(int count){
         // 图像的宽度和高度
         int width=0;
         int height=0;
@@ -112,5 +116,14 @@ public class MainModule {
             }
         }
         return image;
+    }
+    public boolean synchronizedCount(int count){
+        CountTxt countTxt = new CountTxt();
+        int countintxt=0;
+        countintxt=countTxt.readTxt();
+        if(count!=countintxt) {
+            countTxt.writeTxt(count);
+        }
+        return true;
     }
 }
