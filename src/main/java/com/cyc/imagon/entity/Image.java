@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,7 @@ public class Image {
     //static int count=0;
     static int width;
     static int height;
-    public List<Pixel> pixels;
+    public List<Pixel> pixels =new ArrayList<Pixel>();
 
     public static int getWidth() {
         return width;
