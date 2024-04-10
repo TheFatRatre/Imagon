@@ -6,6 +6,7 @@ import com.cyc.imagon.entity.PixelWithCount;
 
 import java.awt.image.BufferedImage;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.max;
@@ -20,7 +21,7 @@ import static java.lang.Math.max;
  * @Version 1.0
  */
 public class MainModule {
-    private static List<PixelWithCount> pixelWithCounts;
+    private static List<PixelWithCount> pixelWithCounts=new ArrayList<PixelWithCount>();
     private static int count=0;
     private static int size=3;
 
@@ -65,9 +66,13 @@ public class MainModule {
             //int imageCount = imageWithCount.getCount();
             // 将原始网格上的点投影到目标网格上
             int targetX = secureRandom.nextInt(targetWidth);
+            targetX=targetX%targetWidth;
             int targetY = secureRandom.nextInt(targetHeight);
+            targetY=targetY%targetHeight;
             //运算出目标点在一维list下的位置
             int target =targetX+(targetY-1)*targetWidth-1;
+            if(target<0) target=-target;
+            target=target%(targetWidth*targetHeight);
             pixelWithCounts.get(target).setX(x);
             pixelWithCounts.get(target).setY(y);
             pixelWithCounts.get(target).setR(r);
@@ -75,6 +80,7 @@ public class MainModule {
             pixelWithCounts.get(target).setB(b);
             pixelWithCounts.get(target).setCount(count);
         }
+        System.out.println(count);
         return true;
     }
     public BufferedImage getImageWithCount(int count){
