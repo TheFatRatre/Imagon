@@ -24,28 +24,40 @@ import static com.cyc.imagon.Application.frame;
  * @Version 1.0
  */
 public class GUI {
+    private int totalCount=0;
     private int curCount=0;
     private JButton 上一张图Button;
     private JButton 下一张图Button;
     private JButton 添加图片Button;
     public JPanel root;
-    public static ImageIcon image=new ImageIcon("src/main/resources/image/img.png");
+
     static File imageFile;
-    static CountTxt countTxt;
+    static CountTxt countTxt=new CountTxt();
     public GUI(MainModule mainModule) {
         上一张图Button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                curCount=countTxt.readTxt();
-                BufferedImage imageByCount = mainModule.getImageByCount(curCount);
-
+                totalCount=countTxt.readTxt();
+                if(curCount>0) curCount--;
+               // BufferedImage imageByCount = mainModule.getImageByCount(curCount);
+                mainModule.getImageByCount(curCount);
+//                File outputImage = new File("src/main/resources/image/output.png");
+//                try {
+//                    ImageIO.write(imageByCount, "png", outputImage);
+//                } catch (IOException ex) {
+//                    throw new RuntimeException(ex);
+//                }
             }
         });
         下一张图Button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
+                totalCount=countTxt.readTxt();
+                if(curCount<totalCount) curCount++;
+                //BufferedImage imageByCount = mainModule.getImageByCount(curCount);
+                mainModule.getImageByCount(curCount);
 
             }
         });
@@ -63,13 +75,5 @@ public class GUI {
             }
         });
     }
-    private void showImage(BufferedImage bufferedImage){
-        //image.setImage();
-        JLabel label=new JLabel(image);
-        frame.setLayout(null);
-        frame.add(label);
-        label.setBounds(50,10,900,720);
-        frame.setVisible(true);
-        frame.setResizable(false);
-    }
+
 }

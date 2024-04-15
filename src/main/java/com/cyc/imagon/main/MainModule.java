@@ -5,14 +5,20 @@ import com.cyc.imagon.entity.Pixel;
 import com.cyc.imagon.entity.PixelWithCount;
 import com.cyc.imagon.service.CountTxt;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cyc.imagon.Application.frame;
+import static com.cyc.imagon.Application.label;
 import static java.lang.Math.max;
 
 /**
@@ -26,6 +32,7 @@ import static java.lang.Math.max;
  */
 public class MainModule {
     private static List<PixelWithCount> pixelWithCounts=new ArrayList<PixelWithCount>();
+    public static ImageIcon imageOut=new ImageIcon("src/main/resources/image/imgIcon.png");
     private static int count=0;
     private static int size=3;
 
@@ -84,23 +91,20 @@ public class MainModule {
             pixelWithCounts.get(target).setB(b);
             pixelWithCounts.get(target).setCount(count);
         }
+//        for (int i = 0; i < size * 1000000*size; i++) {
+//            if(pixelWithCounts.get(i).getCount()!=0){
+//                System.out.println("存入");
+//            }
+//        }
+        synchronizedCount(count);
         System.out.println(count);
         return true;
     }
     public BufferedImage getImageByCount(int count){
+        if(count==0) return null;
         // 图像的宽度和高度
-        int width=0;
-        int height=0;
-        for (int i = 0; i < size * 1000; i++) {
-            for (int j = 0; j < size * 1000; j++) {
-                int index=i+j*size*1000;
-                PixelWithCount pixelWithCount = pixelWithCounts.get(index);
-                if(pixelWithCount.getCount() == count){
-                    width=max(width,pixelWithCount.getX());
-                    height=max(height,pixelWithCount.getY());
-                }
-            }
-        }
+        int width=2000;
+        int height=2000;
         // 创建BufferedImage对象
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < size * 1000; i++) {
@@ -108,6 +112,7 @@ public class MainModule {
                 int index=i+j*size*1000;
                 PixelWithCount pixelWithCount = pixelWithCounts.get(index);
                 if(pixelWithCount.getCount() == count){
+                    //System.out.println("获得count为"+count+"的像素点"+index);
                     int x=pixelWithCount.getX();
                     int y=pixelWithCount.getY();
                     int rgb=pixelWithCount.getRGB();
@@ -115,7 +120,42 @@ public class MainModule {
                 }
             }
         }
+        imageOut.setImage(image);
+        //首先创建一个BufferedImage变量，因为ImageIO写图片用到了BufferedImage变量。
+//再创建一个Graphics变量，用来画出来要保持的图片，及上面传递过来的Image变量
+        Graphics g = image.getGraphics();
+        try {
+            g.drawImage(image, 0, 0, null);
+
+//将BufferedImage变量写入文件中。
+            ImageIO.write(image,"jpg",new File("src/main/resources/image/img.png"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //JLabel label=new JLabel(imageOut);
+        label.setIcon(imageOut);
+        frame.setLayout(null);
+        frame.add(label);
+        label.setBounds(50,10,900,720);
+        frame.setVisible(true);
+        frame.setResizable(false);
+        //showImage();
+//        for (int i = 0; i < size * 1000000*size; i++) {
+//            if(pixelWithCounts.get(i).getCount()==count){
+//                System.out.println("读出"+count);
+//            }
+//        }
         return image;
+    }
+    private void showImage(){
+
+        JLabel label=new JLabel(imageOut);
+        frame.setLayout(null);
+        frame.add(label);
+        label.setBounds(50,10,900,720);
+        frame.setVisible(true);
+        frame.setResizable(false);
     }
     public boolean synchronizedCount(int count){
         CountTxt countTxt = new CountTxt();
