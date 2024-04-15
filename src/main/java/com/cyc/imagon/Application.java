@@ -16,6 +16,7 @@ import javax.swing.*;
 public class Application {
     public static MainModule mainModule = new MainModule();
     public static ImageIcon initImage=new ImageIcon("src/main/resources/image/init.png");
+    public static JLabel label=new JLabel(initImage);
     public static JFrame frame = new JFrame("Imagon");
     public static void main(String[] args) {
         GUI gui = new GUI(mainModule);
@@ -24,7 +25,7 @@ public class Application {
         frame.setSize(1000,800);
         frame.setVisible(true);
         //初始图像
-        JLabel label=new JLabel(initImage);
+
         frame.setLayout(null);
         frame.add(label);
         label.setBounds(50,10,900,720);
