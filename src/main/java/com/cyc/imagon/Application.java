@@ -27,7 +27,7 @@ public class Application {
         //初始图像
 
         frame.setLayout(null);
-        frame.add(label);
+        //frame.add(label);
         label.setBounds(50,10,900,720);
         frame.setVisible(true);
         frame.setResizable(false);

@@ -60,9 +60,13 @@ public class Image {
                 // 获取(x, y)处的像素值
                 int pixel = image.getRGB(x, y);
                 // 提取RGB值
-                int red = (pixel >> 16) & 0xff;
-                int green = (pixel >> 8) & 0xff;
-                int blue = (pixel) & 0xff;
+                short red = (short) ((pixel >> 16) & 0xff);
+                short green = (short) ((pixel >> 8) & 0xff);
+                short blue = (short) ((pixel) & 0xff);
+                if(red<0){
+                   // red=pixel.getR();
+                    red = (short) ((pixel >> 16) & 0xff);
+                }
                 pixel1.setX(x);
                 pixel1.setY(y);
                 pixel1.setR(red);

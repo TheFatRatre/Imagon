@@ -71,9 +71,9 @@ public class MainModule {
             Pixel pixel = pixels.get(i);
             int x=pixel.getX();
             int y=pixel.getY();
-            int r=pixel.getR();
-            int g=pixel.getG();
-            int b=pixel.getB();
+            short r=pixel.getR();
+            short g=pixel.getG();
+            short b=pixel.getB();
             //int imageCount = imageWithCount.getCount();
             // 将原始网格上的点投影到目标网格上
             int targetX = secureRandom.nextInt(targetWidth);
@@ -97,14 +97,14 @@ public class MainModule {
 //            }
 //        }
         synchronizedCount(count);
-        System.out.println(count);
+        System.out.println("count="+count);
         return true;
     }
     public BufferedImage getImageByCount(int count){
         if(count==0) return null;
         // 图像的宽度和高度
-        int width=2000;
-        int height=2000;
+        int width=1200;
+        int height=1200;
         // 创建BufferedImage对象
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < size * 1000; i++) {
@@ -115,19 +115,24 @@ public class MainModule {
                     //System.out.println("获得count为"+count+"的像素点"+index);
                     int x=pixelWithCount.getX();
                     int y=pixelWithCount.getY();
+                    if(x>=width||y>=height) continue;
                     int rgb=pixelWithCount.getRGB();
-                    image.setRGB(x, y, rgb);
+                    try {
+                        image.setRGB(x, y, rgb);
+                    } catch (Exception e) {
+                        System.out.println("x="+x+" y="+y);
+                    }
                 }
             }
         }
+        System.out.println("count="+count);
         imageOut.setImage(image);
         //首先创建一个BufferedImage变量，因为ImageIO写图片用到了BufferedImage变量。
-//再创建一个Graphics变量，用来画出来要保持的图片，及上面传递过来的Image变量
+        //再创建一个Graphics变量，用来画出来要保持的图片，及上面传递过来的Image变量
         Graphics g = image.getGraphics();
         try {
             g.drawImage(image, 0, 0, null);
-
-//将BufferedImage变量写入文件中。
+        //将BufferedImage变量写入文件中。
             ImageIO.write(image,"jpg",new File("src/main/resources/image/img.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
@@ -141,11 +146,11 @@ public class MainModule {
         frame.setVisible(true);
         frame.setResizable(false);
         //showImage();
-//        for (int i = 0; i < size * 1000000*size; i++) {
-//            if(pixelWithCounts.get(i).getCount()==count){
-//                System.out.println("读出"+count);
-//            }
-//        }
+        //        for (int i = 0; i < size * 1000000*size; i++) {
+        //            if(pixelWithCounts.get(i).getCount()==count){
+        //                System.out.println("读出"+count);
+        //            }
+        //        }
         return image;
     }
     private void showImage(){
