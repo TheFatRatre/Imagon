@@ -27,4 +27,12 @@
 
 
     </dependencies>
+    <developers>
+        <developer>
+            <id>TheFatRat</id>
+            <name>eachannchan</name>
+            <email>1981590178@qq.com</email>
+            <url>https://github.com/TheFatRatre</url>
+        </developer>
+    </developers>
 </project>
