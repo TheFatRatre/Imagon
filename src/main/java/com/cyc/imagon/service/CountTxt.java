@@ -12,7 +12,7 @@ import java.io.*;
  * @Version 1.0
  */
 public class CountTxt {
-    String pathname = "src/main/resources/file/count.txt";
+    String pathname = "src/main/resources/file/count.ig";
     int countintxt=0;
     public int readTxt(){
         try (FileReader reader = new FileReader(pathname);
@@ -29,7 +29,7 @@ public class CountTxt {
     public void writeTxt(int count){
         try {
             File writeName = new File(pathname); // 相对路径，如果没有则要建立一个新的output.txt文件
-            writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
+            //writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)
             ) {

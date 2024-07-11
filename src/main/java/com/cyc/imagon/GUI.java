@@ -4,15 +4,10 @@ import com.cyc.imagon.entity.Image;
 import com.cyc.imagon.main.MainModule;
 import com.cyc.imagon.service.CountTxt;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
-
-import static com.cyc.imagon.Application.frame;
 
 /**
  * ClassName: GUI
@@ -30,7 +25,7 @@ public class GUI {
     private JButton 下一张图Button;
     private JButton 添加图片Button;
     public JPanel root;
-
+    private JButton 持久化JButton;
     static File imageFile;
     static CountTxt countTxt=new CountTxt();
     public GUI(MainModule mainModule) {
@@ -38,27 +33,21 @@ public class GUI {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                totalCount=countTxt.readTxt();
-                if(curCount>0) curCount--;
-               // BufferedImage imageByCount = mainModule.getImageByCount(curCount);
+                totalCount = countTxt.readTxt();
+                if (curCount > 0) curCount--;
+                if (curCount == 0) curCount=totalCount;
                 mainModule.getImageByCount(curCount);
-//                File outputImage = new File("src/main/resources/image/output.png");
-//                try {
-//                    ImageIO.write(imageByCount, "png", outputImage);
-//                } catch (IOException ex) {
-//                    throw new RuntimeException(ex);
-//                }
             }
         });
         下一张图Button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                totalCount=countTxt.readTxt();
-                if(curCount<totalCount) curCount++;
+                totalCount = countTxt.readTxt();
+                if (curCount < totalCount) curCount++;
                 //BufferedImage imageByCount = mainModule.getImageByCount(curCount);
                 mainModule.getImageByCount(curCount);
-
+                if (curCount == totalCount) curCount=0;
             }
         });
         添加图片Button.addMouseListener(new MouseAdapter() {
@@ -74,6 +63,12 @@ public class GUI {
                 mainModule.storeImageWithCount(new Image().loadImage(imageFile));
             }
         });
+        持久化JButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                mainModule.storeToHardDrive();
+            }
+        });
     }
-
 }

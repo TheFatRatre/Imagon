@@ -12,9 +12,9 @@ package com.cyc.imagon.entity;
 public class Pixel {
     int x;
     int y;
-    int r;
-    int g;
-    int b;
+    short r;
+    short g;
+    short b;
     public int getX() {
         return x;
     }
@@ -31,32 +31,35 @@ public class Pixel {
         this.y = y;
     }
 
-    public int getR() {
+    public short getR() {
         return r;
     }
 
-    public void setR(int r) {
+    public void setR(short r) {
         this.r = r;
     }
 
-    public int getG() {
+    public short getG() {
         return g;
     }
 
-    public void setG(int g) {
+    public void setG(short g) {
         this.g = g;
     }
 
-    public int getB() {
+    public short getB() {
         return b;
     }
 
-    public void setB(int b) {
+    public void setB(short b) {
         this.b = b;
     }
     public int getRGB() {
+        int rr=(int) r;
+        int gg=(int) g;
+        int bb=(int) b;
         // 将RGB值转换为int类型
-        int rgb = (r << 16) | (g << 8) | b;
+        int rgb = (rr << 16) | (gg << 8) | bb;
         return rgb;
     }
 
