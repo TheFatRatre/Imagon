@@ -5,6 +5,7 @@ import com.cyc.imagon.service.CountTxt;
 
 import javax.swing.*;
 
+import java.awt.*;
 import java.io.IOException;
 
 import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
@@ -28,7 +29,12 @@ public class Application {
         GUI gui = new GUI(mainModule);
         frame.setContentPane(gui.root);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //图标
+        Toolkit toolkit=Toolkit.getDefaultToolkit();
+        Image icon = toolkit.getImage("src/main/resources/image/icon.jpg");
+        frame.setIconImage(icon);
         frame.setSize(1000,800);
+        gui.root.setBackground(Color.DARK_GRAY);
         frame.setVisible(true);
         //从持久层加载历史记录
         loadFromHardDrive();

@@ -26,7 +26,6 @@ public class GUI {
     private JButton 添加图片Button;
     public JPanel root;
     private JButton 持久化JButton;
-
     static File imageFile;
     static CountTxt countTxt=new CountTxt();
     public GUI(MainModule mainModule) {
@@ -36,7 +35,7 @@ public class GUI {
                 super.mouseClicked(e);
                 totalCount = countTxt.readTxt();
                 if (curCount > 0) curCount--;
-                if (curCount == 0) curCount=9;
+                if (curCount == 0) curCount=totalCount;
                 mainModule.getImageByCount(curCount);
             }
         });
