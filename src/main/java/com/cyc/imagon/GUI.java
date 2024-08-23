@@ -9,6 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.*;
 
+import static com.cyc.imagon.application.ApplicationByGUI.frame;
+import static com.cyc.imagon.application.ApplicationByGUI.label;
+import static com.cyc.imagon.main.MainModule.getImageOut;
+
 /**
  * ClassName: GUI
  * Package: com.cyc.imagon
@@ -27,7 +31,7 @@ public class GUI {
     public JPanel root;
     private JButton 持久化JButton;
     static File imageFile;
-    static CountTxt countTxt=new CountTxt();
+    static CountTxt countTxt = new CountTxt();
     public GUI(MainModule mainModule) {
         上一张图Button.addMouseListener(new MouseAdapter() {
             @Override
@@ -37,6 +41,13 @@ public class GUI {
                 if (curCount > 0) curCount--;
                 if (curCount == 0) curCount=totalCount;
                 mainModule.getImageByCount(curCount);
+                //JLabel label=new JLabel(imageOut);
+                label.setIcon(getImageOut());
+                frame.setLayout(null);
+                frame.add(label);
+                label.setBounds(50,10,900,720);
+                frame.setVisible(true);
+                frame.setResizable(false);
             }
         });
         下一张图Button.addMouseListener(new MouseAdapter() {
@@ -47,6 +58,13 @@ public class GUI {
                 if (curCount < totalCount) curCount++;
                 //BufferedImage imageByCount = mainModule.getImageByCount(curCount);
                 mainModule.getImageByCount(curCount);
+                //JLabel label=new JLabel(imageOut);
+                label.setIcon(getImageOut());
+                frame.setLayout(null);
+                frame.add(label);
+                label.setBounds(50,10,900,720);
+                frame.setVisible(true);
+                frame.setResizable(false);
                 if (curCount == totalCount) curCount=0;
             }
         });

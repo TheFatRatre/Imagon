@@ -13,7 +13,7 @@ import java.io.*;
  */
 public class CountTxt {
     String pathname = "src/main/resources/file/count.ig";
-    int countintxt=0;
+    static int countintxt=0;
     public int readTxt(){
         try (FileReader reader = new FileReader(pathname);
              BufferedReader br = new BufferedReader(reader) // 建立一个对象，它把文件内容转成计算机能读懂的语言
