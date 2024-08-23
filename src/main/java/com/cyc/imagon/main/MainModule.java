@@ -171,7 +171,17 @@ public class MainModule {
     
     public static void loadFromHardDrive() throws IOException  {
         count = countTxt.readTxt();
-        FileReader fileReader = new FileReader(new File(SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG));
+        File mig = new File(SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG);
+        if(!mig.exists())
+        {
+            try {
+                mig.createNewFile();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+        FileReader fileReader = new FileReader(mig);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String pixel;
         while ((pixel = bufferedReader.readLine()) != null) {
