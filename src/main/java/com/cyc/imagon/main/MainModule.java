@@ -4,20 +4,18 @@ import com.cyc.imagon.entity.Image;
 import com.cyc.imagon.entity.Pixel;
 import com.cyc.imagon.entity.PixelWithCount;
 import com.cyc.imagon.service.CountTxt;
+import org.springframework.core.io.ClassPathResource;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.cyc.imagon.Application.frame;
-import static com.cyc.imagon.Application.label;
+import static com.cyc.imagon.application.ApplicationByGUI.frame;
 import static java.lang.Math.max;
 
 /**
@@ -31,10 +29,38 @@ import static java.lang.Math.max;
  */
 
 public class MainModule {
-
+    
+    static final String SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG = "src/main/resources/file/mainmodule.ig";
     private static List<PixelWithCount> pixelWithCounts=new ArrayList<PixelWithCount>();
-    public static ImageIcon imageOut=new ImageIcon("src/main/resources/image/imgIcon.png");
-    CountTxt countTxt = new CountTxt();
+    private static ImageIcon imageOut=new ImageIcon("src/main/resources/images/imgOut.png");
+    private static CountTxt countTxt = new CountTxt();
+
+    public static List<PixelWithCount> getPixelWithCounts() {
+        return pixelWithCounts;
+    }
+    public static void setPixelWithCounts(List<PixelWithCount> pixelWithCounts) {
+        MainModule.pixelWithCounts = pixelWithCounts;
+    }
+    public static ImageIcon getImageOut() {
+        return imageOut;
+    }
+    public static void setImageOut(ImageIcon imageOut) {
+        MainModule.imageOut = imageOut;
+    }
+    public static CountTxt getCountTxt() {
+        return countTxt;
+    }
+    public static void setCountTxt(CountTxt countTxt) {
+        MainModule.countTxt = countTxt;
+    }
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(int count) {
+        MainModule.count = count;
+    }
+
     private static int count;
     private static int size=3;
 
@@ -47,7 +73,6 @@ public class MainModule {
     }
 
     public MainModule() {
-        count=countTxt.readTxt();
         for (int i = 0; i < size * 1000; i++) {
             for (int j = 0; j < size * 1000; j++) {
                 pixelWithCounts.add(new PixelWithCount());
@@ -57,20 +82,14 @@ public class MainModule {
     public boolean storeImageWithCount(Image imageWithCount){
         //图片存一次，count++;
         count++;
-        if(count==size*size+1){
-            count=1;
-        }
         // 原始网格的大小
         int originalWidth = imageWithCount.getWidth();
         int originalHeight = imageWithCount.getHeight();
-
         // 目标网格的大小
         int targetWidth = size*1000;
         int targetHeight = size*1000;
-
         // 创建一个安全随机数生成器
         SecureRandom secureRandom = new SecureRandom();
-
         // 遍历原始网格的每个点
         List<Pixel> pixels = imageWithCount.getPixels();
         for (int i = 0; i < pixels.size(); i++) {
@@ -97,15 +116,14 @@ public class MainModule {
             pixelWithCounts.get(target).setB(b);
             pixelWithCounts.get(target).setCount(count);
         }
-        synchronizedCount(count);
-        System.out.println("count="+count);
+        System.out.println("totalcount="+ count);
         return true;
     }
     public BufferedImage getImageByCount(int count){
         if(count==0) return null;
         // 图像的宽度和高度
         int width=1200;
-        int height=1200;
+        int height=700;
         // 创建BufferedImage对象
         BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
         for (int i = 0; i < size * 1000; i++) {
@@ -126,26 +144,19 @@ public class MainModule {
                 }
             }
         }
-        System.out.println("count="+count);
-        imageOut.setImage(image);
+        System.out.println("curcount="+count);
         //首先创建一个BufferedImage变量，因为ImageIO写图片用到了BufferedImage变量。
         //再创建一个Graphics变量，用来画出来要保持的图片，及上面传递过来的Image变量
         Graphics g = image.getGraphics();
         try {
             g.drawImage(image, 0, 0, null);
         //将BufferedImage变量写入文件中。
-            ImageIO.write(image,"jpg",new File("src/main/resources/image/img.png"));
+            ImageIO.write(image,"jpg",new File("src/main/resources/images/img.jpg"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        //JLabel label=new JLabel(imageOut);
-        label.setIcon(imageOut);
-        frame.setLayout(null);
-        frame.add(label);
-        label.setBounds(50,10,900,720);
-        frame.setVisible(true);
-        frame.setResizable(false);
+
         return image;
     }
     private void showImage(){
@@ -157,18 +168,10 @@ public class MainModule {
         frame.setVisible(true);
         frame.setResizable(false);
     }
-    public boolean synchronizedCount(int count){
-        CountTxt countTxt = new CountTxt();
-        int countintxt=0;
-        countintxt=countTxt.readTxt();
-        if(count!=countintxt) {
-            countTxt.writeTxt(count);
-        }
-        return true;
-    }
-    static String mainmoduletxtpathname = "src/main/resources/file/mainmodule.ig";
+    
     public static void loadFromHardDrive() throws IOException  {
-        FileReader fileReader = new FileReader(new File(mainmoduletxtpathname));
+        count = countTxt.readTxt();
+        FileReader fileReader = new FileReader(new File(SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG));
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         String pixel;
         while ((pixel = bufferedReader.readLine()) != null) {
@@ -224,7 +227,7 @@ public class MainModule {
     public void storeToHardDrive(){
         countTxt.writeTxt(count);
         try {
-            File writeName = new File(mainmoduletxtpathname); // 相对路径，如果没有则要建立一个新的output.txt文件
+            File writeName = new File(SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG); // 相对路径，如果没有则要建立一个新的output.txt文件
             //writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)

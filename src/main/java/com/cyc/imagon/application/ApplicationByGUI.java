@@ -1,5 +1,6 @@
-package com.cyc.imagon;
+package com.cyc.imagon.application;
 
+import com.cyc.imagon.GUI;
 import com.cyc.imagon.main.MainModule;
 import com.cyc.imagon.service.CountTxt;
 
@@ -19,13 +20,13 @@ import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
  * @Create 2024/3/22 17:21
  * @Version 1.0
  */
-public class Application {
+public class ApplicationByGUI {
     public static MainModule mainModule = new MainModule();
     public static ImageIcon initImage=new ImageIcon("src/main/resources/image/init.png");
     public static JLabel label=new JLabel(initImage);
     public static JFrame frame = new JFrame("Imagon");
     public static int lastcount= 0;
-    public static void main(String[] args) throws IOException {
+    public static void mainn(String[] args) throws IOException {
         GUI gui = new GUI(mainModule);
         frame.setContentPane(gui.root);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
