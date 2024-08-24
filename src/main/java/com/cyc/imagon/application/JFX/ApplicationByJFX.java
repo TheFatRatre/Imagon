@@ -86,7 +86,9 @@ public class ApplicationByJFX extends Application {
         var initialScene = mainScenes.get(0);
         sceneGroup = new VSceneGroup(initialScene);
         for (var s : mainScenes) {
-            if (s == initialScene) continue;
+            if (s == initialScene) {
+                continue;
+            }
             sceneGroup.addScene(s);
         }
         var navigatePane = new FusionPane();
@@ -115,12 +117,16 @@ public class ApplicationByJFX extends Application {
             setOnlyAnimateWhenNotClicked(true);
         }};
         prevButton.setOnAction(e->{
-            if (curCount > 0) curCount--;
+            if (curCount > 0) {
+                curCount--;
+            }
             sceneGroup.show(mainScenes.get(curCount), VSceneShowMethod.FROM_LEFT);
         });
         nextButton.setOnAction(e->{
             totalCount = getCount();
-            if (curCount < totalCount) curCount++;
+            if (curCount < totalCount) {
+                curCount++;
+            }
             while (curCount >= mainScenes.size()) {
                 mainScenes.add(new ImageScene());
                 Image image = SwingFXUtils.toFXImage(mainModule.getImageByCount(curCount), null);
@@ -138,7 +144,9 @@ public class ApplicationByJFX extends Application {
         navigatePane.getContentPane().getChildren().add(prevButton);
         navigatePane.getContentPane().getChildren().add(nextButton);
         navigatePane.getContentPane().widthProperty().addListener((ob, old, now) -> {
-            if (now == null) return;
+            if (now == null) {
+                return;
+            }
             var v = now.doubleValue();
             nextButton.setLayoutX(v - nextButton.getPrefWidth());
         });

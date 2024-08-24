@@ -1,12 +1,9 @@
-package com.cyc.imagon.common;
-
-import org.junit.jupiter.api.Test;
+package com.cyc.imagon.test;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 
 /**
  * ClassName: JPGPixel
@@ -17,7 +14,7 @@ import java.nio.file.Path;
  * @Create 2024/3/20 15:07
  * @Version 1.0
  */
-public class JPGPixel {
+public class JPGPixelTest {
     public void JPGPixelExtractor(){
         try {
             // 读取JPG图像文件

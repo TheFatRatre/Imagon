@@ -1,5 +1,10 @@
 package com.cyc.imagon.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.influxdb.annotation.Measurement;
+
 /**
  * ClassName: PixelWithCount
  * Package: com.cyc.imagon.entity
@@ -9,14 +14,10 @@ package com.cyc.imagon.entity;
  * @Create 2024/3/25 19:37
  * @Version 1.0
  */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Measurement(name = "PixelWithCount")
 public class PixelWithCount extends Pixel{
-    int count;
-
-    public int getCount() {
-        return count;
-    }
-
-    public void setCount(int count) {
-        this.count = count;
-    }
+    short count;
 }

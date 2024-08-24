@@ -67,6 +67,7 @@
             <artifactId>vfx</artifactId>
             <version>1.4.0</version>
         </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -75,11 +76,22 @@
             <scope>provided</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.influxdb</groupId>
+            <artifactId>influxdb-java</artifactId>
+            <version>2.15</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.miwurster</groupId>
+            <artifactId>spring-data-influxdb</artifactId>
+            <version>1.8</version>
+        </dependency>
+
     </dependencies>
 
     <developers>
         <developer>
-            <id>TheFatRat</id>
+            <id>TheFatRatre</id>
             <name>eachannchan</name>
             <email>1981590178@qq.com</email>
             <url>https://github.com/TheFatRatre</url>
