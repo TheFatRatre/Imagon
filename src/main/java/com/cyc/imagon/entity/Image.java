@@ -20,7 +20,7 @@ public class Image {
     //static int count=0;
     static int width;
     static int height;
-    public List<Pixel> pixels =new ArrayList<Pixel>();
+    public List<Pixel> pixels = new ArrayList<Pixel>();
 
     public static int getWidth() {
         return width;
@@ -38,7 +38,8 @@ public class Image {
     public void setPixels(Pixel pixels) {
         this.pixels.add(pixels);
     }
-    public Image loadImage(File imageFile){
+
+    public Image loadImage(File imageFile) {
         //创建对象
         Image imageWithCount = new Image();
         //从文件中读入图片
@@ -63,8 +64,8 @@ public class Image {
                 short red = (short) ((pixel >> 16) & 0xff);
                 short green = (short) ((pixel >> 8) & 0xff);
                 short blue = (short) ((pixel) & 0xff);
-                if(red<0){
-                   // red=pixel.getR();
+                if (red < 0) {
+                    // red=pixel.getR();
                     red = (short) ((pixel >> 16) & 0xff);
                 }
                 pixel1.setX(x);

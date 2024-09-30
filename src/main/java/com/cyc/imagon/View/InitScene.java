@@ -15,8 +15,8 @@ import lombok.var;
  * @Create 2024/8/4 21:48
  * @Version 1.1
  */
-public class InitScene extends AbstractVScene{
-    public InitScene(){
+public class InitScene extends AbstractVScene {
+    public InitScene() {
         super(VSceneRole.MAIN);
         enableAutoContentWidthHeight();
 

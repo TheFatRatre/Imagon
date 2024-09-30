@@ -1,5 +1,6 @@
-package com.cyc.imagon.common;
+package com.cyc.imagon.test;
 
+import com.cyc.imagon.common.DeepCopy;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +16,7 @@ import java.awt.image.BufferedImage;
  * @author 申雄全
  * Date 2023/12/24 1:50
  */
-public class ConvertUtil {
+public class ConvertUtilTest {
     public static Image ConvertToFxImage(BufferedImage image) {
         WritableImage wr = null;
         if (image != null) {

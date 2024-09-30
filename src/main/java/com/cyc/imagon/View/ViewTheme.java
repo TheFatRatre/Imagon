@@ -15,7 +15,7 @@ import io.vproxy.vfx.theme.impl.DarkThemeFontProvider;
  * @Create 2024/8/17 16:30
  * @Version 1.0
  */
-public class ViewTheme  extends DarkTheme {
+public class ViewTheme extends DarkTheme {
     @Override
     public FontProvider fontProvider() {
         return new ImageFontProvider();
