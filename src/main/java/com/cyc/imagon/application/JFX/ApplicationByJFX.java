@@ -15,11 +15,7 @@ import io.vproxy.vfx.ui.layout.HPadding;
 import io.vproxy.vfx.ui.layout.VPadding;
 import io.vproxy.vfx.ui.loading.VProgressBar;
 import io.vproxy.vfx.ui.pane.FusionPane;
-import io.vproxy.vfx.ui.scene.VScene;
-import io.vproxy.vfx.ui.scene.VSceneGroup;
-import io.vproxy.vfx.ui.scene.VSceneHideMethod;
-import io.vproxy.vfx.ui.scene.VSceneRole;
-import io.vproxy.vfx.ui.scene.VSceneShowMethod;
+import io.vproxy.vfx.ui.scene.*;
 import io.vproxy.vfx.ui.stage.VStage;
 import io.vproxy.vfx.util.FXUtils;
 import javafx.application.Application;
@@ -31,11 +27,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -43,11 +35,11 @@ import lombok.var;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.cyc.imagon.main.MainModule.getCount;
 import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
 
@@ -63,8 +55,8 @@ import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
 @SpringBootApplication
 public class ApplicationByJFX extends Application {
 
-    private int totalCount=0;
-    private int curCount=0;
+    private int totalCount = 0;
+    private int curCount = 0;
     private final List<AbstractVScene> mainScenes = new ArrayList<>();
     private VSceneGroup sceneGroup;
     public static MainModule mainModule = new MainModule();
@@ -116,13 +108,13 @@ public class ApplicationByJFX extends Application {
             setPrefHeight(navigatePane.getNode().getPrefHeight() - FusionPane.PADDING_V * 2);
             setOnlyAnimateWhenNotClicked(true);
         }};
-        prevButton.setOnAction(e->{
+        prevButton.setOnAction(e -> {
             if (curCount > 0) {
                 curCount--;
             }
             sceneGroup.show(mainScenes.get(curCount), VSceneShowMethod.FROM_LEFT);
         });
-        nextButton.setOnAction(e->{
+        nextButton.setOnAction(e -> {
             totalCount = getCount();
             if (curCount < totalCount) {
                 curCount++;
@@ -262,7 +254,7 @@ public class ApplicationByJFX extends Application {
         var noteButton = new FusionButton("说明");
         noteButton.setDisableAnimation(true);
         noteButton.setOnAction(e ->
-            SimpleAlert.showAndWait(Alert.AlertType.INFORMATION , note)
+                SimpleAlert.showAndWait(Alert.AlertType.INFORMATION, note)
         );
         noteButton.setPrefWidth(400);
         noteButton.setPrefHeight(40);

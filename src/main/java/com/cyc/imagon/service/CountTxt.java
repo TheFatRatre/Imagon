@@ -14,10 +14,10 @@ import java.io.*;
 public class CountTxt {
     static final String PATH_NAME = "src/main/resources/file/count.ig";
     static int countintxt = 0;
-    public int readTxt(){
+
+    public int readTxt() {
         File mc = new File(PATH_NAME);
-        if(!mc.exists())
-        {
+        if (!mc.exists()) {
             try {
                 mc.createNewFile();
             } catch (IOException e) {
@@ -27,22 +27,23 @@ public class CountTxt {
         try (FileReader reader = new FileReader(mc);
              BufferedReader br = new BufferedReader(reader)
         ) {
-            String line="0";
+            String line = "0";
             line = br.readLine();
-            countintxt=Integer.parseInt(line);
+            countintxt = Integer.parseInt(line);
         } catch (IOException e) {
             e.printStackTrace();
         }
         return countintxt;
     }
-    public void writeTxt(int count){
+
+    public void writeTxt(int count) {
         try {
             File writeName = new File(PATH_NAME); // 相对路径，如果没有则要建立一个新的output.txt文件
             //writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)
             ) {
-                out.write(count+"\r\n"); // \r\n即为换行
+                out.write(count + "\r\n"); // \r\n即为换行
                 out.flush(); // 把缓存区内容压入文件
             }
         } catch (IOException e) {

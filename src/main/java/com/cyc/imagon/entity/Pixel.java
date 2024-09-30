@@ -18,6 +18,7 @@ public class Pixel {
     short r;
     short g;
     short b;
+
     public int getRGB() {
         int rr = (int) r;
         int gg = (int) g;

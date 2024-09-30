@@ -7,7 +7,7 @@ import com.cyc.imagon.service.CountTxt;
 import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.*;
+import java.io.File;
 
 import static com.cyc.imagon.application.ApplicationByGUI.frame;
 import static com.cyc.imagon.application.ApplicationByGUI.label;
@@ -23,8 +23,8 @@ import static com.cyc.imagon.main.MainModule.getImageOut;
  * @Version 1.0
  */
 public class GUI {
-    private int totalCount=0;
-    private int curCount=0;
+    private int totalCount = 0;
+    private int curCount = 0;
     private JButton 上一张图Button;
     private JButton 下一张图Button;
     private JButton 添加图片Button;
@@ -32,6 +32,7 @@ public class GUI {
     private JButton 持久化JButton;
     static File imageFile;
     static CountTxt countTxt = new CountTxt();
+
     public GUI(MainModule mainModule) {
         上一张图Button.addMouseListener(new MouseAdapter() {
             @Override
@@ -39,13 +40,13 @@ public class GUI {
                 super.mouseClicked(e);
                 totalCount = countTxt.readTxt();
                 if (curCount > 0) curCount--;
-                if (curCount == 0) curCount=totalCount;
+                if (curCount == 0) curCount = totalCount;
                 mainModule.getImageByCount(curCount);
                 //JLabel label=new JLabel(imageOut);
                 label.setIcon(getImageOut());
                 frame.setLayout(null);
                 frame.add(label);
-                label.setBounds(50,10,900,720);
+                label.setBounds(50, 10, 900, 720);
                 frame.setVisible(true);
                 frame.setResizable(false);
             }
@@ -62,10 +63,10 @@ public class GUI {
                 label.setIcon(getImageOut());
                 frame.setLayout(null);
                 frame.add(label);
-                label.setBounds(50,10,900,720);
+                label.setBounds(50, 10, 900, 720);
                 frame.setVisible(true);
                 frame.setResizable(false);
-                if (curCount == totalCount) curCount=0;
+                if (curCount == totalCount) curCount = 0;
             }
         });
         添加图片Button.addMouseListener(new MouseAdapter() {

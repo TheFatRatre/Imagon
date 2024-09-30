@@ -14,8 +14,9 @@ import java.util.Map;
  */
 public class DeepCopy {
     public static BufferedImage cpyBufferedImage(BufferedImage source) {
-        if (source == null)
+        if (source == null) {
             return null;
+        }
         BufferedImage b = new BufferedImage(source.getWidth(), source.getHeight(), source.getType());
         Graphics g = b.getGraphics();
         g.drawImage(source, 0, 0, null);

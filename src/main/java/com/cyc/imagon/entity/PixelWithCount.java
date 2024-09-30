@@ -18,6 +18,6 @@ import org.influxdb.annotation.Measurement;
 @NoArgsConstructor
 @AllArgsConstructor
 @Measurement(name = "PixelWithCount")
-public class PixelWithCount extends Pixel{
+public class PixelWithCount extends Pixel {
     short count;
 }

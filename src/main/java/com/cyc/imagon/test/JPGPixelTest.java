@@ -15,7 +15,7 @@ import java.io.IOException;
  * @Version 1.0
  */
 public class JPGPixelTest {
-    public void JPGPixelExtractor(){
+    public void JPGPixelExtractor() {
         try {
             // 读取JPG图像文件
             //File imageFile = new File("E:\\source\\JAVA\\Imagon\\src\\main\\resources\\image\\img.png");
