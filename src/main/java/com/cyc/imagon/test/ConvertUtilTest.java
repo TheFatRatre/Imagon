@@ -1,6 +1,6 @@
 package com.cyc.imagon.test;
 
-import com.cyc.imagon.util.DeepCopyUtil;
+import com.cyc.imagon.utils.DeepCopyUtil;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

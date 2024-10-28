@@ -1,4 +1,4 @@
-package com.cyc.imagon.util;
+package com.cyc.imagon.utils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

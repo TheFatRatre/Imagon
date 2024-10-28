@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -20,8 +19,6 @@ import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.cyc.imagon.application.ApplicationByGUI.frame;
 
 /**
  * ClassName: MainModule
@@ -36,7 +33,7 @@ import static com.cyc.imagon.application.ApplicationByGUI.frame;
 @Slf4j
 public class MainModule {
 
-    static final String SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG = "src/main/resources/file/mainmodule.ig";
+    static final String SRC_MAIN_RESOURCES_FILE_MAIN_MODULE_IG = "src/main/resources/file/mainmodule.ig";
 
     private static List<PixelWithCount> pixelWithCounts = new ArrayList<PixelWithCount>();
 
@@ -143,19 +140,10 @@ public class MainModule {
         return image;
     }
 
-    private void showImage() {
-
-        JLabel label = new JLabel(imageOut);
-        frame.setLayout(null);
-        frame.add(label);
-        label.setBounds(50, 10, 900, 720);
-        frame.setVisible(true);
-        frame.setResizable(false);
-    }
 
     public static void loadFromHardDrive() throws IOException {
         count = (short) countTxt.readTxt();
-        File mig = new File(SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG);
+        File mig = new File(SRC_MAIN_RESOURCES_FILE_MAIN_MODULE_IG);
         if (!mig.exists()) {
             try {
                 mig.createNewFile();
@@ -216,7 +204,7 @@ public class MainModule {
     public void storeToHardDrive() {
         countTxt.writeTxt(count);
         try {
-            File writeName = new File(SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG); // 相对路径，如果没有则要建立一个新的output.txt文件
+            File writeName = new File(SRC_MAIN_RESOURCES_FILE_MAIN_MODULE_IG); // 相对路径，如果没有则要建立一个新的output.txt文件
             //writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)

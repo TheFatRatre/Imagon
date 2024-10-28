@@ -1,4 +1,4 @@
-package com.cyc.imagon.util;
+package com.cyc.imagon.utils;
 
 import org.springframework.util.StringUtils;
 

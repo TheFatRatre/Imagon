@@ -16,13 +16,9 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 public class BeanConfig {
-    @Bean
+    @Bean(name = "mainModule")
     public MainModule mainModule() {
         return new MainModule();
     }
 
-    @Bean
-    public Image image() {
-        return new Image();
-    }
 }

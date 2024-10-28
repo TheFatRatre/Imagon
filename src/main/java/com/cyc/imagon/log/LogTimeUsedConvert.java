@@ -2,7 +2,7 @@ package com.cyc.imagon.log;
 
 import ch.qos.logback.classic.pattern.ClassicConverter;
 import ch.qos.logback.classic.spi.ILoggingEvent;
-import com.cyc.imagon.util.StringUtil;
+import com.cyc.imagon.utils.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 

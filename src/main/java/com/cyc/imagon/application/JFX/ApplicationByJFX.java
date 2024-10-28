@@ -49,6 +49,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cyc.imagon.application.JFX.FXMain.CONTEXT;
 import static com.cyc.imagon.main.MainModule.getCount;
 import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
 
@@ -69,8 +70,8 @@ public class ApplicationByJFX extends Application {
     private int curCount = 0;
     private final List<AbstractVScene> mainScenes = new ArrayList<>();
     private VSceneGroup sceneGroup;
-    public static MainModule mainModule = new MainModule();
 
+    private final MainModule MAIN_MODULE = (MainModule) CONTEXT.getBean("mainModule");
     @Override
     public void start(Stage primaryStage) throws Exception {
         val stage = new VStage(primaryStage) {
@@ -131,7 +132,7 @@ public class ApplicationByJFX extends Application {
             }
             while (curCount >= mainScenes.size()) {
                 mainScenes.add(new ImageScene());
-                Image image = SwingFXUtils.toFXImage(mainModule.getImageByCount(curCount), null);
+                Image image = SwingFXUtils.toFXImage(MAIN_MODULE.getImageByCount(curCount), null);
                 mainScenes.get(curCount).setBackgroundImage(image);
                 sceneGroup.addScene(mainScenes.get(curCount));
             }
@@ -215,7 +216,7 @@ public class ApplicationByJFX extends Application {
                             // 处理每个选中的图片文件
                             File selectedFile = selectedFiles.get(i);
                             com.cyc.imagon.entity.Image image = new com.cyc.imagon.entity.Image();
-                            mainModule.storeImageWithCount(image.loadImage(selectedFile));
+                            MAIN_MODULE.storeImageWithCount(image.loadImage(selectedFile));
                             // 更新进度
                             progressBar.setProgress((double) (i + 1) / (double) (totalFiles));
                         }
@@ -252,7 +253,7 @@ public class ApplicationByJFX extends Application {
         val storeButton = new FusionButton("持久化");
         storeButton.setDisableAnimation(true);
         storeButton.setOnAction(e -> {
-            mainModule.storeToHardDrive();
+            MAIN_MODULE.storeToHardDrive();
         });
         storeButton.setPrefWidth(400);
         storeButton.setPrefHeight(40);
