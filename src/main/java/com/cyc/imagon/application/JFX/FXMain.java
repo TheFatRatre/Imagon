@@ -3,6 +3,7 @@ package com.cyc.imagon.application.JFX;
 import com.cyc.imagon.View.ViewTheme;
 import io.vproxy.vfx.theme.Theme;
 import javafx.application.Application;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -18,6 +19,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class FXMain {
     public static void main(String[] args) {
         Theme.setTheme(new ViewTheme());
+        SpringApplication.run(FXMain.class, args);
         Application.launch(ApplicationByJFX.class);
     }
 }

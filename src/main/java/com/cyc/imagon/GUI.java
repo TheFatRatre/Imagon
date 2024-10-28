@@ -4,7 +4,9 @@ import com.cyc.imagon.entity.Image;
 import com.cyc.imagon.main.MainModule;
 import com.cyc.imagon.service.CountTxt;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -39,8 +41,12 @@ public class GUI {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 totalCount = countTxt.readTxt();
-                if (curCount > 0) curCount--;
-                if (curCount == 0) curCount = totalCount;
+                if (curCount > 0) {
+                    curCount--;
+                }
+                if (curCount == 0) {
+                    curCount = totalCount;
+                }
                 mainModule.getImageByCount(curCount);
                 //JLabel label=new JLabel(imageOut);
                 label.setIcon(getImageOut());
@@ -56,7 +62,9 @@ public class GUI {
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
                 totalCount = countTxt.readTxt();
-                if (curCount < totalCount) curCount++;
+                if (curCount < totalCount) {
+                    curCount++;
+                }
                 //BufferedImage imageByCount = mainModule.getImageByCount(curCount);
                 mainModule.getImageByCount(curCount);
                 //JLabel label=new JLabel(imageOut);
@@ -66,7 +74,9 @@ public class GUI {
                 label.setBounds(50, 10, 900, 720);
                 frame.setVisible(true);
                 frame.setResizable(false);
-                if (curCount == totalCount) curCount = 0;
+                if (curCount == totalCount) {
+                    curCount = 0;
+                }
             }
         });
         添加图片Button.addMouseListener(new MouseAdapter() {

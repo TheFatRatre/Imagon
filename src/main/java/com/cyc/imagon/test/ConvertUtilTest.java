@@ -1,6 +1,6 @@
 package com.cyc.imagon.test;
 
-import com.cyc.imagon.common.DeepCopy;
+import com.cyc.imagon.util.DeepCopyUtil;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -60,7 +60,7 @@ public class ConvertUtilTest {
         long stime = System.currentTimeMillis();
         if (targetHeight > srcImg.getHeight() || targetWidth > srcImg.getWidth()) {
 
-            return DeepCopy.cpyBufferedImage(srcImg);
+            return DeepCopyUtil.cpyBufferedImage(srcImg);
         }
 
         if (higherQuality) {

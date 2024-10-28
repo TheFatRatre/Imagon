@@ -1,3 +1,5 @@
+import lombok.extern.java.Log;
+
 import java.security.SecureRandom;
 
 public class GridProjection {
@@ -22,6 +24,7 @@ public class GridProjection {
                 int targetY = secureRandom.nextInt(targetHeight);
 
                 // 输出投影结果
+
                 System.out.println("原始点 (" + x + ", " + y + ") 被投影到目标点 (" + targetX + ", " + targetY + ")");
             }
         }

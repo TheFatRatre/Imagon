@@ -1,4 +1,4 @@
-package com.cyc.imagon.common;
+package com.cyc.imagon.util;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -9,10 +9,10 @@ import java.util.Map;
 /**
  * 该类实现图像的深拷贝
  *
- * @author 申雄全
+ * @author CYC
  * Date 2023/12/24 1:51
  */
-public class DeepCopy {
+public class DeepCopyUtil {
     public static BufferedImage cpyBufferedImage(BufferedImage source) {
         if (source == null) {
             return null;
