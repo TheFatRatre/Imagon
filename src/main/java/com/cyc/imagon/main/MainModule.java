@@ -4,17 +4,21 @@ import com.cyc.imagon.entity.Image;
 import com.cyc.imagon.entity.Pixel;
 import com.cyc.imagon.entity.PixelWithCount;
 import com.cyc.imagon.service.CountTxt;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.ImageIcon;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.cyc.imagon.application.ApplicationByGUI.frame;
 
 /**
  * ClassName: MainModule
@@ -26,55 +30,20 @@ import static com.cyc.imagon.application.ApplicationByGUI.frame;
  * @Version 1.0
  */
 
+@Slf4j
 public class MainModule {
 
-    static final String SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG = "src/main/resources/file/mainmodule.ig";
+    static final String SRC_MAIN_RESOURCES_FILE_MAIN_MODULE_IG = "src/main/resources/file/mainmodule.ig";
+
     private static List<PixelWithCount> pixelWithCounts = new ArrayList<PixelWithCount>();
+
     private static ImageIcon imageOut = new ImageIcon("src/main/resources/images/imgOut.png");
+
     private static CountTxt countTxt = new CountTxt();
 
-    public static List<PixelWithCount> getPixelWithCounts() {
-        return pixelWithCounts;
-    }
-
-    public static void setPixelWithCounts(List<PixelWithCount> pixelWithCounts) {
-        MainModule.pixelWithCounts = pixelWithCounts;
-    }
-
-    public static ImageIcon getImageOut() {
-        return imageOut;
-    }
-
-    public static void setImageOut(ImageIcon imageOut) {
-        MainModule.imageOut = imageOut;
-    }
-
-    public static CountTxt getCountTxt() {
-        return countTxt;
-    }
-
-    public static void setCountTxt(CountTxt countTxt) {
-        MainModule.countTxt = countTxt;
-    }
-
-    public static int getCount() {
-        return count;
-    }
-
-    public static void setCount(short count) {
-        MainModule.count = count;
-    }
-
     private static short count;
+
     private static int size = 4;
-
-    public static int getSize() {
-        return size;
-    }
-
-    public static void setSize(int size) {
-        MainModule.size = size;
-    }
 
     public MainModule() {
         for (int i = 0; i < size * 1000; i++) {
@@ -97,8 +66,7 @@ public class MainModule {
         SecureRandom secureRandom = new SecureRandom();
         // 遍历原始网格的每个点
         List<Pixel> pixels = imageWithCount.getPixels();
-        for (int i = 0; i < pixels.size(); i++) {
-            Pixel pixel = pixels.get(i);
+        for (Pixel pixel : pixels) {
             int x = pixel.getX();
             int y = pixel.getY();
             short r = pixel.getR();
@@ -123,7 +91,7 @@ public class MainModule {
             pixelWithCounts.get(target).setB(b);
             pixelWithCounts.get(target).setCount(count);
         }
-        System.out.println("total-count=" + count);
+        log.info("total-count={}", count);
         return true;
     }
 
@@ -151,12 +119,12 @@ public class MainModule {
                     try {
                         image.setRGB(x, y, rgb);
                     } catch (Exception e) {
-                        System.out.println("x=" + x + " y=" + y);
+                        log.error("x=" + x + " y=" + y);
                     }
                 }
             }
         }
-        System.out.println("cur-count=" + count);
+        log.info("cur - count = {}",count);
         //首先创建一个BufferedImage变量，因为ImageIO写图片用到了BufferedImage变量。
         //再创建一个Graphics变量，用来画出来要保持的图片，及上面传递过来的Image变量
         Graphics g = image.getGraphics();
@@ -172,19 +140,10 @@ public class MainModule {
         return image;
     }
 
-    private void showImage() {
-
-        JLabel label = new JLabel(imageOut);
-        frame.setLayout(null);
-        frame.add(label);
-        label.setBounds(50, 10, 900, 720);
-        frame.setVisible(true);
-        frame.setResizable(false);
-    }
 
     public static void loadFromHardDrive() throws IOException {
         count = (short) countTxt.readTxt();
-        File mig = new File(SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG);
+        File mig = new File(SRC_MAIN_RESOURCES_FILE_MAIN_MODULE_IG);
         if (!mig.exists()) {
             try {
                 mig.createNewFile();
@@ -245,7 +204,7 @@ public class MainModule {
     public void storeToHardDrive() {
         countTxt.writeTxt(count);
         try {
-            File writeName = new File(SRC_MAIN_RESOURCES_FILE_MAINMODULE_IG); // 相对路径，如果没有则要建立一个新的output.txt文件
+            File writeName = new File(SRC_MAIN_RESOURCES_FILE_MAIN_MODULE_IG); // 相对路径，如果没有则要建立一个新的output.txt文件
             //writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)
@@ -270,5 +229,44 @@ public class MainModule {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public static int getSize() {
+        return size;
+    }
+
+    public static void setSize(int size) {
+        MainModule.size = size;
+    }
+
+    public static List<PixelWithCount> getPixelWithCounts() {
+        return pixelWithCounts;
+    }
+
+    public static void setPixelWithCounts(List<PixelWithCount> pixelWithCounts) {
+        MainModule.pixelWithCounts = pixelWithCounts;
+    }
+
+    public static ImageIcon getImageOut() {
+        return imageOut;
+    }
+
+    public static void setImageOut(ImageIcon imageOut) {
+        MainModule.imageOut = imageOut;
+    }
+
+    public static CountTxt getCountTxt() {
+        return countTxt;
+    }
+
+    public static void setCountTxt(CountTxt countTxt) {
+        MainModule.countTxt = countTxt;
+    }
+
+    public static int getCount() {
+        return count;
+    }
+
+    public static void setCount(short count) {
+        MainModule.count = count;
     }
 }

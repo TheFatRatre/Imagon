@@ -1,6 +1,11 @@
 package com.cyc.imagon.service;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
 /**
  * ClassName: CountTxt
@@ -38,8 +43,7 @@ public class CountTxt {
 
     public void writeTxt(int count) {
         try {
-            File writeName = new File(PATH_NAME); // 相对路径，如果没有则要建立一个新的output.txt文件
-            //writeName.createNewFile(); // 创建新文件,有同名的文件的话直接覆盖
+            File writeName = new File(PATH_NAME);
             try (FileWriter writer = new FileWriter(writeName);
                  BufferedWriter out = new BufferedWriter(writer)
             ) {

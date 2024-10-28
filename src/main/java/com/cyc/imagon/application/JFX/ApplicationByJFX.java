@@ -15,7 +15,11 @@ import io.vproxy.vfx.ui.layout.HPadding;
 import io.vproxy.vfx.ui.layout.VPadding;
 import io.vproxy.vfx.ui.loading.VProgressBar;
 import io.vproxy.vfx.ui.pane.FusionPane;
-import io.vproxy.vfx.ui.scene.*;
+import io.vproxy.vfx.ui.scene.VScene;
+import io.vproxy.vfx.ui.scene.VSceneGroup;
+import io.vproxy.vfx.ui.scene.VSceneHideMethod;
+import io.vproxy.vfx.ui.scene.VSceneRole;
+import io.vproxy.vfx.ui.scene.VSceneShowMethod;
 import io.vproxy.vfx.ui.stage.VStage;
 import io.vproxy.vfx.util.FXUtils;
 import javafx.application.Application;
@@ -27,11 +31,16 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
-import javafx.scene.layout.*;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import lombok.var;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.File;
@@ -40,6 +49,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.cyc.imagon.application.JFX.FXMain.CONTEXT;
 import static com.cyc.imagon.main.MainModule.getCount;
 import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
 
@@ -52,6 +62,7 @@ import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
  * @Create 2024/8/17 12:00
  * @Version 1.0
  */
+@Slf4j
 @SpringBootApplication
 public class ApplicationByJFX extends Application {
 
@@ -59,11 +70,11 @@ public class ApplicationByJFX extends Application {
     private int curCount = 0;
     private final List<AbstractVScene> mainScenes = new ArrayList<>();
     private VSceneGroup sceneGroup;
-    public static MainModule mainModule = new MainModule();
 
+    private final MainModule MAIN_MODULE = (MainModule) CONTEXT.getBean("mainModule");
     @Override
     public void start(Stage primaryStage) throws Exception {
-        var stage = new VStage(primaryStage) {
+        val stage = new VStage(primaryStage) {
             @Override
             public void close() {
                 super.close();
@@ -75,15 +86,15 @@ public class ApplicationByJFX extends Application {
         stage.setTitle("Imagon");
         primaryStage.getIcons().add(new Image("images/icon.jpg"));
         mainScenes.add(new InitScene());
-        var initialScene = mainScenes.get(0);
+        AbstractVScene initialScene = mainScenes.get(0);
         sceneGroup = new VSceneGroup(initialScene);
-        for (var s : mainScenes) {
+        for (AbstractVScene s : mainScenes) {
             if (s == initialScene) {
                 continue;
             }
             sceneGroup.addScene(s);
         }
-        var navigatePane = new FusionPane();
+        val navigatePane = new FusionPane();
 
         navigatePane.getNode().setPrefHeight(60);
 
@@ -93,17 +104,17 @@ public class ApplicationByJFX extends Application {
 
         loadFromHardDrive();
 
-        var prevButton = new FusionButton("<< Previous") {{
+        val prevButton = new FusionButton("<< Previous") {{
             setPrefWidth(150);
             setPrefHeight(navigatePane.getNode().getPrefHeight() - FusionPane.PADDING_V * 2);
             setOnlyAnimateWhenNotClicked(true);
-            var current = sceneGroup.getCurrentMainScene();
-            var index = mainScenes.indexOf(current);
+            val current = sceneGroup.getCurrentMainScene();
+            val index = mainScenes.indexOf(current);
             if (index == 0) {
                 setDisable(true);
             }
         }};
-        var nextButton = new FusionButton("Next >>") {{
+        val nextButton = new FusionButton("Next >>") {{
             setPrefWidth(150);
             setPrefHeight(navigatePane.getNode().getPrefHeight() - FusionPane.PADDING_V * 2);
             setOnlyAnimateWhenNotClicked(true);
@@ -121,13 +132,13 @@ public class ApplicationByJFX extends Application {
             }
             while (curCount >= mainScenes.size()) {
                 mainScenes.add(new ImageScene());
-                Image image = SwingFXUtils.toFXImage(mainModule.getImageByCount(curCount), null);
+                Image image = SwingFXUtils.toFXImage(MAIN_MODULE.getImageByCount(curCount), null);
                 mainScenes.get(curCount).setBackgroundImage(image);
                 sceneGroup.addScene(mainScenes.get(curCount));
             }
 
-            var current = sceneGroup.getCurrentMainScene();
-            var index = mainScenes.indexOf(current);
+            val current = sceneGroup.getCurrentMainScene();
+            val index = mainScenes.indexOf(current);
             if (index != 0) {
                 prevButton.setDisable(false);
             }
@@ -139,11 +150,11 @@ public class ApplicationByJFX extends Application {
             if (now == null) {
                 return;
             }
-            var v = now.doubleValue();
+            val v = now.doubleValue();
             nextButton.setLayoutX(v - nextButton.getPrefWidth());
         });
 
-        var box = new HBox(
+        val box = new HBox(
                 new HPadding(10),
                 new VBox(
                         new VPadding(10),
@@ -155,7 +166,7 @@ public class ApplicationByJFX extends Application {
         stage.getInitialScene().getContentPane().getChildren().add(box);
 
         //菜单
-        var menuScene = new VScene(VSceneRole.DRAWER_VERTICAL);
+        val menuScene = new VScene(VSceneRole.DRAWER_VERTICAL);
         menuScene.getNode().setPrefWidth(450);
         menuScene.enableAutoContentWidth();
         menuScene.getNode().setBackground(new Background(new BackgroundFill(
@@ -165,13 +176,13 @@ public class ApplicationByJFX extends Application {
         )));
         stage.getRootSceneGroup().addScene(menuScene, VSceneHideMethod.TO_LEFT);
 
-        var menuVBox = new VBox() {{
+        val menuVBox = new VBox() {{
             setPadding(new Insets(0, 0, 0, 24));
             getChildren().add(new VPadding(20));
         }};
         menuScene.getContentPane().getChildren().add(menuVBox);
 
-        var loadButton = new FusionButton("添加图片");
+        val loadButton = new FusionButton("添加图片");
         loadButton.setDisableAnimation(true);
         loadButton.setOnAction(e -> {
             // 创建文件选择器
@@ -205,7 +216,7 @@ public class ApplicationByJFX extends Application {
                             // 处理每个选中的图片文件
                             File selectedFile = selectedFiles.get(i);
                             com.cyc.imagon.entity.Image image = new com.cyc.imagon.entity.Image();
-                            mainModule.storeImageWithCount(image.loadImage(selectedFile));
+                            MAIN_MODULE.storeImageWithCount(image.loadImage(selectedFile));
                             // 更新进度
                             progressBar.setProgress((double) (i + 1) / (double) (totalFiles));
                         }
@@ -228,7 +239,7 @@ public class ApplicationByJFX extends Application {
                 task.setOnSucceeded(event -> {
                     // 在 JavaFX 线程上更新 UI
                     Platform.runLater(() -> {
-                        System.out.println("图片全部传入成功");
+                        log.info("图片全部传入成功");
                         progressStage.close();
                     });
                 });
@@ -239,10 +250,10 @@ public class ApplicationByJFX extends Application {
         menuVBox.getChildren().add(loadButton);
         menuVBox.getChildren().add(new VPadding(20));
 
-        var storeButton = new FusionButton("持久化");
+        val storeButton = new FusionButton("持久化");
         storeButton.setDisableAnimation(true);
         storeButton.setOnAction(e -> {
-            mainModule.storeToHardDrive();
+            MAIN_MODULE.storeToHardDrive();
         });
         storeButton.setPrefWidth(400);
         storeButton.setPrefHeight(40);
@@ -251,7 +262,7 @@ public class ApplicationByJFX extends Application {
 
         final String note = new String(Files.readAllBytes(Paths.get("README.md")));
 
-        var noteButton = new FusionButton("说明");
+        val noteButton = new FusionButton("说明");
         noteButton.setDisableAnimation(true);
         noteButton.setOnAction(e ->
                 SimpleAlert.showAndWait(Alert.AlertType.INFORMATION, note)
@@ -261,7 +272,7 @@ public class ApplicationByJFX extends Application {
         menuVBox.getChildren().add(noteButton);
         menuVBox.getChildren().add(new VPadding(20));
 
-        var menuBtn = new FusionImageButton(ImageManager.get().load("images/menu.png")) {{
+        val menuBtn = new FusionImageButton(ImageManager.get().load("images/menu.png")) {{
             setPrefWidth(50);
             setPrefHeight(VStage.TITLE_BAR_HEIGHT + 10);
             getImageView().setFitHeight(15);

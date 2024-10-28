@@ -1,0 +1,32 @@
+name: Imagon
+
+server:
+  port: 6010
+  compression:
+    enabled: true
+    mime-types: application/json
+
+mysql:
+  host: localhost
+  port: 3306
+  database: imagon
+  username: "root"
+  password: "cyc20031129"
+
+mybatis-plus:
+  mapper-locations: classpath:com/knq/sports/datax/admin/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+spring:
+  application:
+    name: ${name}
+  profiles:
+    active: local
+    main:
+      allow-circular-references: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${mysql.host}:${mysql.port}/${mysql.database}?characterEncoding=utf8&serverTimezone=Asia/Shanghai&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true&allowMultiQueries=true
+    username: ${mysql.username}
+    password: ${mysql.password}
