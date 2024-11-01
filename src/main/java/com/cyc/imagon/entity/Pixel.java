@@ -20,11 +20,6 @@ public class Pixel {
     short b;
 
     public int getRGB() {
-        int rr = (int) r;
-        int gg = (int) g;
-        int bb = (int) b;
-        // 将RGB值转换为int类型
-        int rgb = (rr << 16) | (gg << 8) | bb;
-        return rgb;
+        return ((int) r << 16) | ((int) g << 8) | b;
     }
 }

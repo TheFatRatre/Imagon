@@ -4,7 +4,7 @@ import io.vproxy.vfx.manager.font.FontManager;
 import io.vproxy.vfx.ui.scene.VSceneRole;
 import io.vproxy.vfx.ui.wrapper.ThemeLabel;
 import io.vproxy.vfx.util.FXUtils;
-import lombok.var;
+import lombok.val;
 
 /**
  * ClassName: ApplicationByVFX
@@ -20,7 +20,7 @@ public class InitScene extends AbstractVScene {
         super(VSceneRole.MAIN);
         enableAutoContentWidthHeight();
 
-        var label = new ThemeLabel("Welcome to Imagon") {{
+        val label = new ThemeLabel("Welcome to Imagon") {{
             FontManager.get().setFont(this, settings -> settings.setSize(40));
         }};
         getContentPane().getChildren().add(label);

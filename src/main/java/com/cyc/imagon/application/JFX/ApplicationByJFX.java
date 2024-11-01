@@ -41,7 +41,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -49,9 +48,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.cyc.imagon.application.JFX.FXMain.CONTEXT;
 import static com.cyc.imagon.main.MainModule.getCount;
-import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
 
 /**
  * ClassName: ApplicationByVFX
@@ -63,15 +60,13 @@ import static com.cyc.imagon.main.MainModule.loadFromHardDrive;
  * @Version 1.0
  */
 @Slf4j
-@SpringBootApplication
 public class ApplicationByJFX extends Application {
 
     private int totalCount = 0;
     private int curCount = 0;
     private final List<AbstractVScene> mainScenes = new ArrayList<>();
     private VSceneGroup sceneGroup;
-
-    private final MainModule MAIN_MODULE = (MainModule) CONTEXT.getBean("mainModule");
+    private final MainModule MAIN_MODULE = new MainModule();
     @Override
     public void start(Stage primaryStage) throws Exception {
         val stage = new VStage(primaryStage) {
@@ -101,8 +96,6 @@ public class ApplicationByJFX extends Application {
         FXUtils.observeHeight(stage.getInitialScene().getContentPane(), sceneGroup.getNode(), -10 - 60 - 5 - 10);
         FXUtils.observeWidth(stage.getInitialScene().getContentPane(), sceneGroup.getNode(), -20);
         FXUtils.observeWidth(stage.getInitialScene().getContentPane(), navigatePane.getNode(), -20);
-
-        loadFromHardDrive();
 
         val prevButton = new FusionButton("<< Previous") {{
             setPrefWidth(150);
@@ -213,18 +206,15 @@ public class ApplicationByJFX extends Application {
                     protected Void call() throws Exception {
                         int totalFiles = selectedFiles.size();
                         for (int i = 0; i < totalFiles; i++) {
-                            // 处理每个选中的图片文件
                             File selectedFile = selectedFiles.get(i);
-                            com.cyc.imagon.entity.Image image = new com.cyc.imagon.entity.Image();
-                            MAIN_MODULE.storeImageWithCount(image.loadImage(selectedFile));
-                            // 更新进度
+                            val image = new com.cyc.imagon.entity.Image();
+                            image.loadImage(selectedFile);
+                            MAIN_MODULE.storeImage(image);
                             progressBar.setProgress((double) (i + 1) / (double) (totalFiles));
                         }
                         return null;
                     }
                 };
-
-                // 启动任务
                 new Thread(task).start();
                 VStage progressStage = new VStage();
                 progressStage.getStage().setResizable(false);
@@ -235,9 +225,7 @@ public class ApplicationByJFX extends Application {
                 vBox.setLayoutX(50);
                 vBox.setLayoutY(25);
                 progressStage.show();
-                // 设置任务完成时的回调
                 task.setOnSucceeded(event -> {
-                    // 在 JavaFX 线程上更新 UI
                     Platform.runLater(() -> {
                         log.info("图片全部传入成功");
                         progressStage.close();
@@ -250,15 +238,15 @@ public class ApplicationByJFX extends Application {
         menuVBox.getChildren().add(loadButton);
         menuVBox.getChildren().add(new VPadding(20));
 
-        val storeButton = new FusionButton("持久化");
-        storeButton.setDisableAnimation(true);
-        storeButton.setOnAction(e -> {
-            MAIN_MODULE.storeToHardDrive();
-        });
-        storeButton.setPrefWidth(400);
-        storeButton.setPrefHeight(40);
-        menuVBox.getChildren().add(storeButton);
-        menuVBox.getChildren().add(new VPadding(20));
+//        val storeButton = new FusionButton("持久化");
+//        storeButton.setDisableAnimation(true);
+//        storeButton.setOnAction(e -> {
+//            MAIN_MODULE.storeToHardDrive();
+//        });
+//        storeButton.setPrefWidth(400);
+//        storeButton.setPrefHeight(40);
+//        menuVBox.getChildren().add(storeButton);
+//        menuVBox.getChildren().add(new VPadding(20));
 
         final String note = new String(Files.readAllBytes(Paths.get("README.md")));
 

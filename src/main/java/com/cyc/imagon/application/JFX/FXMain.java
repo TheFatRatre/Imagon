@@ -1,12 +1,14 @@
 package com.cyc.imagon.application.JFX;
 
 import com.cyc.imagon.View.ViewTheme;
+import com.cyc.imagon.utils.SpringUtil;
 import io.vproxy.vfx.theme.Theme;
 import javafx.application.Application;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Import;
 
 /**
  * ClassName: FXMain
@@ -17,12 +19,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @Create 2024/8/17 16:27
  * @Version 1.0
  */
+@Import(SpringUtil.class)
+@MapperScan("com.cyc.imagon.mapper")
+@ComponentScan(basePackages = {"com.cyc.imagon.service","com.cyc.imagon.controller"})
 @SpringBootApplication
 public class FXMain {
-    public static final ApplicationContext CONTEXT= new ClassPathXmlApplicationContext("config/applicationContext.xml");
+//    public static final ApplicationContext CONTEXT= new ClassPathXmlApplicationContext("config/applicationContext.xml");
     public static void main(String[] args) {
         Theme.setTheme(new ViewTheme());
-        SpringApplication.run(ApplicationByJFX.class, args);
+        SpringApplication.run(FXMain.class, args);
         Application.launch(ApplicationByJFX.class);
     }
 }

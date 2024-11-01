@@ -14,7 +14,6 @@ mysql:
   password: "cyc20031129"
 
 mybatis-plus:
-  mapper-locations: classpath:com/knq/sports/datax/admin/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
 
@@ -22,7 +21,7 @@ spring:
   application:
     name: ${name}
   profiles:
-    active: local
+    active: dev
     main:
       allow-circular-references: true
   datasource:

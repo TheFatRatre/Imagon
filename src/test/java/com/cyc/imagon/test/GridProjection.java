@@ -1,3 +1,5 @@
+package com.cyc.imagon.test;
+
 import lombok.extern.java.Log;
 
 import java.security.SecureRandom;

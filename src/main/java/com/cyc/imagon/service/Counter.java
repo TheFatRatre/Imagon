@@ -16,7 +16,7 @@ import java.io.IOException;
  * @Create 2024/4/10 20:23
  * @Version 1.0
  */
-public class CountTxt {
+public class Counter {
     static final String PATH_NAME = "src/main/resources/file/count.ig";
     static int countintxt = 0;
 
