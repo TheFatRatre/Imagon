@@ -43,22 +43,18 @@ public class MainModule {
 
     private static final AtomicInteger COUNT = new AtomicInteger();
 
-    private static int size = 4 * 1000;
+    private static final int SIZE = 4 * 1000;
 
     private final MainModuleDataService mainModuleDataService = SpringUtil.getBean(MainModuleDataService.class);
 
 
     public boolean storeImage(Image image) {
         COUNT.incrementAndGet();
-        // 原始网格的大小
         int originalWidth = image.getWidth();
         int originalHeight = image.getHeight();
-        // 目标网格的大小
-        long targetWidth = size;
-        long targetHeight = size;
-        // 创建一个安全随机数生成器
+        long targetWidth = SIZE;
+        long targetHeight = SIZE;
         SecureRandom secureRandom = new SecureRandom();
-        // 遍历原始网格的每个点
         List<Pixel> pixels = image.getPixels();
         for (Pixel pixel : pixels) {
             val x = pixel.getX();
@@ -66,12 +62,12 @@ public class MainModule {
             val r = pixel.getR();
             val g = pixel.getG();
             val b = pixel.getB();
-            // 将原始网格上的点投影到目标网格上
+
             long targetX = secureRandom.nextLong();
             targetX = targetX % targetWidth;
             long targetY = secureRandom.nextLong();
             targetY = targetY % targetHeight;
-            //运算出目标点在一维list下的位置
+
             long target = targetX + (targetY - 1) * targetWidth - 1;
             if (target < 0) {
                 target = -target;
@@ -216,11 +212,7 @@ public class MainModule {
 //        }
 //    }
     public static int getSize() {
-        return size;
-    }
-
-    public static void setSize(int size) {
-        MainModule.size = size;
+        return SIZE;
     }
 
     public static List<PixelWithCount> getPixelWithCounts() {

@@ -1,8 +1,6 @@
 package com.cyc.imagon.entity;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -31,12 +29,11 @@ public class Image {
 
     private List<Pixel> pixels = new ArrayList<Pixel>();
 
-    public void setPixels(Pixel pixels) {
-        this.pixels.add(pixels);
+    public void setPixels(Pixel pixel) {
+        this.pixels.add(pixel);
     }
 
-    public Image loadImage(File imageFile) {
-        Image imageWithCount = new Image();
+    public void loadImage(File imageFile) {
         BufferedImage image = null;
         try {
             image = ImageIO.read(imageFile);
@@ -52,17 +49,13 @@ public class Image {
                 short red = (short) ((pixel >> 16) & 0xff);
                 short green = (short) ((pixel >> 8) & 0xff);
                 short blue = (short) ((pixel) & 0xff);
-                if (red < 0) {
-                    red = (short) ((pixel >> 16) & 0xff);
-                }
                 pixel1.setX(x);
                 pixel1.setY(y);
                 pixel1.setR(red);
                 pixel1.setG(green);
                 pixel1.setB(blue);
-                imageWithCount.setPixels(pixel1);
+                this.setPixels(pixel1);
             }
         }
-        return imageWithCount;
     }
 }
